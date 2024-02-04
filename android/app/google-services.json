@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "718950671830",
+    "project_id": "flutter-ecommerce-c9b79",
+    "storage_bucket": "flutter-ecommerce-c9b79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718950671830:android:ab1fb50496232c60cf7077",
+        "android_client_info": {
+          "package_name": "com.mehedi.food_delivery_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABiGoI2NbtQFcQY4CYhu-L9hfWxsP74E0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
