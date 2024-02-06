@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_flutter/features/app/spalsh_screen/splash_screen.dart';
+import 'package:food_delivery_flutter/features/user_auth/presentation/pages/home_page.dart';
 import 'package:food_delivery_flutter/features/user_auth/presentation/pages/login_page.dart';
+import 'package:food_delivery_flutter/features/user_auth/presentation/pages/signup_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,9 +32,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => SplashScreen(
               child: LoginPage(),
             ),
-        // '/login': (context) => LoginPage(),
-        // '/signUp': (context) => SignUpPage(),
-        // '/home': (context) => HomePage(),
+        '/login': (context) => LoginPage(),
+        '/signup': (context) => SignupPage(),
+        '/home': (context) => HomePage(),
       },
     );
   }

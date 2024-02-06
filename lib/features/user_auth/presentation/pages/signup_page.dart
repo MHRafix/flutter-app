@@ -3,25 +3,27 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_flutter/features/user_auth/firebase_auth_implimentation/firebase_services.dart';
-import 'package:food_delivery_flutter/features/user_auth/presentation/pages/signup_page.dart';
+import 'package:food_delivery_flutter/features/user_auth/presentation/pages/login_page.dart';
 import 'package:food_delivery_flutter/features/user_auth/presentation/widgets/form_container_widget.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignupPage> {
   final FirebaseAuthService _auth = FirebaseAuthService();
 
+  TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
+    _nameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -33,9 +35,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -43,11 +47,19 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Login",
+                "Signup",
                 style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 30,
+              ),
+              FormContainerWidget(
+                controller: _nameController,
+                hintText: "Name",
+                isPasswordField: false,
+              ),
+              SizedBox(
+                height: 10,
               ),
               FormContainerWidget(
                 controller: _emailController,
@@ -63,11 +75,12 @@ class _LoginPageState extends State<LoginPage> {
                 isPasswordField: true,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               GestureDetector(
                 onTap: () {
-                  _signin();                },
+                  _signUp();
+                },
                 child: Container(
                   width: double.infinity,
                   height: 45,
@@ -90,69 +103,67 @@ class _LoginPageState extends State<LoginPage> {
                           //   color: Colors.white
                           // ),
                           Text(
-                    "Login",
+                    "Signup",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                  )
-
-                  ),
+                  )),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              GestureDetector(
-                onTap: () {
-                  // _signInWithGoogle();
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.mail,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Sign in with Google",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     // _signInWithGoogle();
+              //   },
+              //   child: Container(
+              //     width: double.infinity,
+              //     height: 45,
+              //     decoration: BoxDecoration(
+              //       color: Colors.red,
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //     child: Center(
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Icon(
+              //             Icons.mail,
+              //             color: Colors.white,
+              //           ),
+              //           SizedBox(
+              //             width: 5,
+              //           ),
+              //           Text(
+              //             "Sign in with Google",
+              //             style: TextStyle(
+              //               color: Colors.white,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have an account?"),
+                  Text("Already have an account?"),
                   SizedBox(
                     width: 5,
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, "/signup");
+                      Navigator.pushNamed(context, "/login");
                     },
                     child: Text(
-                      "Sign Up",
+                      "Signin",
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -168,20 +179,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-
-
-  void _signin () async{
+  void _signUp() async {
+    String username = _nameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    User? user = await _auth.signInWithEmailAndPassword(email, password);
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
 
-    if(user != null){
-      AlertToast("Login success!", context);
-      Navigator.pushNamed(context, "/home");
-    }else{
-      AlertToast("Incorrect credential!", context);
+    if (user != null) {
+      AlertToast("Login for get access!", context);
+      Navigator.pushNamed(context, "/login");
+    } else {
+      AlertToast("Some error happened!", context);
     }
-
   }
 }
