@@ -20,6 +20,8 @@ class _SignUpPageState extends State<SignupPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
+  bool isSigningUp = false;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -28,18 +30,14 @@ class _SignUpPageState extends State<SignupPage> {
     super.dispose();
   }
 
-
-  AlertToast(message, context){
-    return ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message))
-    );
+  AlertToast(message, context) {
+    return ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -98,59 +96,57 @@ class _SignUpPageState extends State<SignupPage> {
                       //   ),
                       // ),
 
-                      child:
-                          // CircularProgressIndicator(
-                          //   color: Colors.white
-                          // ),
-                          Text(
-                    "Signup",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
+                      child: isSigningUp
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              "Signup",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              // GestureDetector(
-              //   onTap: () {
-              //     // _signInWithGoogle();
-              //   },
-              //   child: Container(
-              //     width: double.infinity,
-              //     height: 45,
-              //     decoration: BoxDecoration(
-              //       color: Colors.red,
-              //       borderRadius: BorderRadius.circular(10),
-              //     ),
-              //     child: Center(
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         children: [
-              //           Icon(
-              //             Icons.mail,
-              //             color: Colors.white,
-              //           ),
-              //           SizedBox(
-              //             width: 5,
-              //           ),
-              //           Text(
-              //             "Sign in with Google",
-              //             style: TextStyle(
-              //               color: Colors.white,
-              //               fontWeight: FontWeight.bold,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
+              GestureDetector(
+                onTap: () {
+                  // _signInWithGoogle();
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.mail,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Sign in with Google",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -180,6 +176,9 @@ class _SignUpPageState extends State<SignupPage> {
   }
 
   void _signUp() async {
+    setState(() {
+      isSigningUp = true;
+    });
     String username = _nameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;

@@ -16,6 +16,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final FirebaseAuthService _auth = FirebaseAuthService();
 
+  bool isSigningIn = false;
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -26,11 +28,9 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-
-  AlertToast(message, context){
-    return ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message))
-    );
+  AlertToast(message, context) {
+    return ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -67,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  _signin();                },
+                  _signin();
+                },
                 child: Container(
                   width: double.infinity,
                   height: 45,
@@ -85,19 +86,15 @@ class _LoginPageState extends State<LoginPage> {
                       //   ),
                       // ),
 
-                      child:
-                          // CircularProgressIndicator(
-                          //   color: Colors.white
-                          // ),
-                          Text(
-                    "Login",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-
-                  ),
+                      child: isSigningIn
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              "Login",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
                 ),
               ),
               SizedBox(
@@ -168,20 +165,27 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  void _signin() async {
+    setState(() {
+      isSigningIn = true;
+    });
 
-
-  void _signin () async{
     String email = _emailController.text;
     String password = _passwordController.text;
 
     User? user = await _auth.signInWithEmailAndPassword(email, password);
 
-    if(user != null){
+    if (user != null) {
       AlertToast("Login success!", context);
       Navigator.pushNamed(context, "/home");
-    }else{
+      setState(() {
+        isSigningIn = false;
+      });
+    } else {
       AlertToast("Incorrect credential!", context);
+      setState(() {
+        isSigningIn = false;
+      });
     }
-
   }
 }
